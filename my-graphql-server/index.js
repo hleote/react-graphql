@@ -1,26 +1,61 @@
-var express = require('express');
-var { graphqlHTTP } = require('express-graphql');
-var { buildSchema } = require('graphql');
- 
+const { ApolloServer } = require("apollo-server");
+const fetch = require("node-fetch");
+const _ = require("lodash");
+
 // Construct a schema, using GraphQL schema language
-var schema = buildSchema(`
+const typeDefs = `
   type Query {
-    hello: String
+    rates(currency: String!): [ExchangeRate]
   }
-`);
- 
-// The root provides a resolver function for each API endpoint
-var root = {
-  hello: () => {
-    return 'Hello world!';
+
+	type ExchangeRate {
+		currency: String
+		rate: String
+		name: String
+	}
+`;
+
+// Provide resolver functions for your schema fields
+const resolvers = {
+  Query: {
+    rates: async (_root, { currency }) => {
+      try {
+        const results = await fetch(
+          `https://api.coinbase.com/v2/exchange-rates?currency=${currency}`
+        );
+        const exchangeRates = await results.json();
+
+        return _.map(exchangeRates.data.rates, (rate, currency) => ({
+          currency,
+          rate
+        }));
+      } catch (e) {
+        console.error(e);
+      }
+    }
   },
+  ExchangeRate: {
+    name: async ({ currency }) => {
+      try {
+        const results = await fetch("https://api.coinbase.com/v2/currencies");
+        const currencyData = await results.json();
+
+        const currencyInfo = currencyData.data.find(
+          c => c.id.toUpperCase() === currency
+        );
+        return currencyInfo ? currencyInfo.name : null;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
 };
- 
-var app = express();
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
-}));
-app.listen(10000);
-console.log('Running a GraphQL API server at http://localhost:10000/graphql');
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers
+});
+
+server.listen(11000).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});
