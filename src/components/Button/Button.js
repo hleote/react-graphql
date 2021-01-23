@@ -28,13 +28,22 @@ const StyledButton = styled.button`
     border-color: #234bc3;
   }
   &:active {
-			background-color: #1A368E;
-			border-color: #1A368E;
+    background-color: #1a368e;
+    border-color: #1a368e;
+  }
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    box-shadow: none;
   }
 `;
 
-const Button = ({ children }) => {
-  return <StyledButton>{children}</StyledButton>;
+const Button = ({ children, disabled, onClick }) => {
+  return (
+    <StyledButton onClick={onClick} disabled={disabled}>
+      {children}
+    </StyledButton>
+  );
 };
 
 export default Button;
