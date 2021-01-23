@@ -1,9 +1,6 @@
 import styled from "@emotion/styled";
 
-import Input from "./components/Input";
-import Button from "./components/Button";
-import Container from "./containers/Container";
-import ElementWrapper from "./components/styledComponents/ElementWrapper";
+import Container from "./Container";
 
 const StyledAppWrapper = styled.div`
   text-align: center;
@@ -13,14 +10,7 @@ const StyledAppWrapper = styled.div`
 function App() {
   return (
     <StyledAppWrapper>
-      <Container>
-        <ElementWrapper>
-          <Input />
-        </ElementWrapper>
-        <ElementWrapper>
-          <Button>I'm a button</Button>
-        </ElementWrapper>
-      </Container>
+      <Container />
     </StyledAppWrapper>
   );
 }
