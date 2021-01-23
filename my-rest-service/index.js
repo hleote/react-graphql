@@ -1,32 +1,37 @@
-const jsonServer = require('json-server')
-const server = jsonServer.create()
-const middlewares = jsonServer.defaults()
-const port = process.env.PORT || 11000
+import express from "express";
+const app = express();
+const port = 11000;
 
-server.use(jsonServer.bodyParser)
-server.use(middlewares)
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
-server.get('/person', (request, response) => {
-	if (request.method === 'GET') {
-					const person = require('./person/index')
-					response.status(200).jsonp(person())
-	}
-})
+app.get("/person", function (req, res) {
+  const person = {
+    name: "Hugo",
+    surname: "Leote",
+  };
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(person));
+});
 
-server.get('/facility', (request, response) => {
-	if (request.method === 'GET') {
-					const facility = require('./facility/index')
-					response.status(200).jsonp(facility())
-	}
-})
+app.get("/exposure", function (req, res) {
+  const exposure = {
+    val5: "test5",
+  };
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(exposure));
+});
 
-server.get('/exposure', (request, response) => {
-	if (request.method === 'GET') {
-					const exposure = require('./exposure/index')
-					response.status(200).jsonp(exposure())
-	}
-})
+app.get("/facility", function (req, res) {
+  const facility = {
+    val3: "test3",
+    val4: "test4",
+  };
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(facility));
+});
 
-server.listen(port, () => {
-    console.log('JSON Server is running')
-})
+app.listen(port, () => {
+  console.log(`app listening at http://localhost:${port}`);
+});
