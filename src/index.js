@@ -12,16 +12,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 const client = new ApolloClient({
-  uri: "http://localhost:11000",
+  uri: "http://localhost:12000/graphql",
   cache: new InMemoryCache(),
 });
 
 client
   .query({
     query: gql`
-      query GetRates {
-        rates(currency: "USD") {
-          currency
+      query GetPerson {
+        person {
+          name
         }
       }
     `,
