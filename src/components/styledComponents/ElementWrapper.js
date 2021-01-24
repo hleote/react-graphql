@@ -5,7 +5,6 @@ import { respondTo } from './breakPointsMixin.js';
 
 const StyledElementWrapper = styled.div`
   margin: 40px;
-  max-width: 960px;
   padding-right: 10px;
 		padding-left: 10px;
 		margin-bottom: 50px;
