@@ -1,7 +1,8 @@
 import express from "express";
 import { ApolloServer, gql } from "apollo-server-express";
 import cors from "cors";
-import fetch from "node-fetch";
+
+import { customFetch } from "./utils.js";
 
 const baseURL = "http://localhost:11000";
 
@@ -12,16 +13,21 @@ const schema = gql`
     exposure: Exposure
   }
 
+  type Mutation {
+    postFacility(inputValue: Int!): Facility
+    postExposure(inputValue: Int!): Exposure
+  }
+
   type Person {
-    val1: String!
-    val2: String!
+    val1: Int
+    val2: Int
   }
   type Facility {
-    val3: String!
-    val4: String!
+    val3: Int
+    val4: Int
   }
   type Exposure {
-    val5: String!
+    val5: Int
   }
 `;
 
@@ -43,6 +49,18 @@ const resolvers = {
       }).then((res) => res.json());
     },
   },
+  Mutation: {
+    postFacility: (parent, args) => {
+      return customFetch(`${baseURL}/facility/${args.inputValue}`).then(
+        (res) => res
+      );
+    },
+    postExposure: (parent, args) => {
+      return customFetch(`${baseURL}/exposure/${args.inputValue}`).then(
+        (res) => res
+      );
+    },
+  },
 };
 
 const frontendOrigin = "http://localhost:3000";
@@ -57,7 +75,7 @@ app.use(cors(corsOptions));
 
 const server = new ApolloServer({
   typeDefs: schema,
-  resolvers,
+		resolvers,
 });
 
 server.applyMiddleware({ app, path: "/graphql" });
