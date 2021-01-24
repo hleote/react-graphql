@@ -19,7 +19,7 @@ const StyledButton = styled.button`
   color: #fff;
   padding: 8px calc(24px - 1px);
   border-radius: 8px;
-  width: 100%;
+  width: calc(100% - 85px);
   position: relative;
   overflow: hidden;
 
