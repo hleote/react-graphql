@@ -104,7 +104,7 @@ const Container = () => {
           Please insert only numbers - Max 10 digits
         </ErrorMessageWrapper>
       )}
-      {!isNaN(finalResult) && finalResult > 0 && (
+      {!isNaN(finalResult) && finalResult > 0 && !showError && (
         <FinalResultMessageWrapper>{finalResult}</FinalResultMessageWrapper>
       )}
     </StyledContainer>
