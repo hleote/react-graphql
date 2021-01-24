@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { useLazyQuery, gql } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
 
 import Input from "../components/Input";
 import Button from "../components/Button";
-import ElementWrapper from "../components/styledComponents/ElementWrapper";
+import ElementWrapper from "../components/styledComponents/ElementWrapper.js";
 
 const StyledContainer = styled.div`
   background-color: #fff;
@@ -24,28 +24,40 @@ const ErrorMessageWrapper = styled.div`
   font-weight: 700;
 `;
 
-const GET_DATA = gql`
-  query GetPerson {
-    person {
-      val1
-      val2
-    }
-    facility {
+const FinalResultMessageWrapper = styled.div`
+  font-weight: 700;
+`;
+
+const POST_DATA = gql`
+  mutation PostPerson($inputValue: Int!) {
+    postFacility(inputValue: $inputValue) {
       val3
-      val4
     }
-    exposure {
+    postExposure(inputValue: $inputValue) {
       val5
     }
   }
 `;
 
 const Container = () => {
-  const [doQuery, { loading, error, data }] = useLazyQuery(GET_DATA);
+  const [doQuery, { loading, error, data }] = useMutation(POST_DATA);
 
   const [inputValue, setInputValue] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [showError, setShowError] = useState(false);
+  const [finalResult, setFinalResult] = useState(0);
+
+  const calculateFinalResult = (resData = {}) => {
+    const finalResult = Object.values(resData)
+      .map((el) => Object.values(el)[0])
+      .reduce((acc, cur) => cur + acc, 0);
+    return finalResult;
+  };
+
+  useEffect(() => {
+    setFinalResult(calculateFinalResult(data));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const validateInput = (e) => {
     const REGEX_VALIDATOR = /^([0-9]){0,10}$/;
@@ -66,10 +78,13 @@ const Container = () => {
     }
   };
 
-  if (loading) return 'Loading...';
+  const onClick = () => {
+    doQuery({ variables: { inputValue: parseInt(inputValue) } });
+  };
+
+  if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
-  console.log("DATA ", data);
   return (
     <StyledContainer>
       <ElementWrapper>
@@ -80,7 +95,7 @@ const Container = () => {
         />
       </ElementWrapper>
       <ElementWrapper>
-        <Button onClick={doQuery} disabled={buttonDisabled}>
+        <Button onClick={onClick} disabled={buttonDisabled}>
           Submit
         </Button>
       </ElementWrapper>
@@ -88,6 +103,9 @@ const Container = () => {
         <ErrorMessageWrapper>
           Please insert only numbers - Max 10 digits
         </ErrorMessageWrapper>
+      )}
+      {!isNaN(finalResult) && finalResult > 0 && (
+        <FinalResultMessageWrapper>{finalResult}</FinalResultMessageWrapper>
       )}
     </StyledContainer>
   );
