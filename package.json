@@ -5,7 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "@apollo/client": "^3.3.7",
-    "@emotion/core": "10.0.35",
+    "@emotion/core": "^10.0.35",
     "@emotion/styled": "10.0.27",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -23,8 +23,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-rest-api": "nodemon ./my-rest-service/index.js",
-    "start-apollo-server": "nodemon ./my-graphql-server/server.js",
+    "start-rest": "nodemon ./my-rest-service/index.js",
+    "start-apollo": "nodemon ./my-graphql-server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
