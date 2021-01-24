@@ -1,3 +1,30 @@
+
+# Full stack web app
+
+- React client - (Create React App)
+- Apollo client
+- GraphQL/Apollo server
+- REST API mocked server
+
+# How does it work?
+
+- Git clone
+- `npm i` or `yarn` (you should be able to use Yarn if you prefer, should run on Node ver. 14.15.4 also works on Node 12.16.2 and other LTS versions)
+- Run REST API server - `npm run start-rest`
+- Run the GraphQL server simultaneously in another window using, `npm run start-apollo`
+- Start the Create React App using, `npm run start`
+
+# What does it do?
+
+- Renders some elements in the DOM, the main elements that allow user interaction are an Input and a Button components
+- Waits for the user to introduce a whole number in the Input field
+- Validates the users' input
+- Makes a POST/Mutation request through the GraphQL server & the REST API, returns the data to the Apollo client using the `@apollo/client` `useMutation` hook.
+- Calculates the value of the fields `val3` & `val5`, which contain the same number, so it multiplies the numbers
+- Returns and result
+
+
+More info on the Create React App below
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
