@@ -19,7 +19,13 @@ const StyledInput = styled.input`
 `;
 
 const Input = ({ onChange, value }) => {
-  return <StyledInput onChange={onChange} value={value} />;
+  return (
+    <StyledInput
+      placeholder="Please enter a whole number"
+      onChange={onChange}
+      value={value}
+    />
+  );
 };
 
 export default Input;
