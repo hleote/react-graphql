@@ -14,7 +14,7 @@
     "apollo-server-express": "^2.19.2",
     "express": "^4.17.1",
     "graphql": "^15.4.0",
-    "json-server": "^0.16.3",
+    "json-server": "^0.17.1",
     "node-fetch": "^2.6.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
